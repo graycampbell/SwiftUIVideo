@@ -18,9 +18,26 @@ class VideoViewModel: ObservableObject {
     
     @Published var video: Video
     @Published var player: AVPlayer
+    @Published var seekPosition: Double = 0
+    
+    private var timeObserver: Any?
     
     init(video: Video) {
         self.video = video
         self.player = AVPlayer(url: video.url!)
+        
+        let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
+        
+        self.timeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
+            guard let currentItem = self.player.currentItem else { return }
+            
+            self.seekPosition = time.seconds / currentItem.duration.seconds
+        }
+    }
+    
+    deinit {
+        guard let timeObserver = self.timeObserver else { return }
+        
+        self.player.removeTimeObserver(timeObserver)
     }
 }

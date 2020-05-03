@@ -13,10 +13,9 @@ struct VideoPlayerContainerView: View {
     let player: AVPlayer
     
     @Binding var isExpanded: Bool
+    @Binding var seekPosition: Double
     
     @State var isShowingControls: Bool = true
-    
-    private let aspectRatio = CGSize(width: 1242.0 / 529.0, height: 1)
     
     var body: some View {
         ZStack {
@@ -29,8 +28,8 @@ struct VideoPlayerContainerView: View {
             }
             
             VideoPlayerView(player: self.player)
-                .aspectRatio(self.aspectRatio, contentMode: .fit)
-            VideoPlayerControlsView(player: self.player, isExpanded: self.$isExpanded, isShowingControls: self.$isShowingControls)
+                .aspectRatio(1242.0 / 529.0, contentMode: .fit)
+            VideoPlayerControlsView(player: self.player, isExpanded: self.$isExpanded, isShowingControls: self.$isShowingControls, seekPosition: self.$seekPosition)
                 .opacity(self.isShowingControls ? 1 : 0)
                 .animation(.easeInOut)
         }
@@ -44,6 +43,6 @@ struct VideoPlayerContainerView: View {
 
 struct VideoPlayerContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerContainerView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false))
+        VideoPlayerContainerView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), seekPosition: .constant(0))
     }
 }

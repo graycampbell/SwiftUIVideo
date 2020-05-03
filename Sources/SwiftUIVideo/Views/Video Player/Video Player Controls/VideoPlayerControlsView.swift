@@ -15,9 +15,9 @@ struct VideoPlayerControlsView: View {
     
     @Binding var isExpanded: Bool
     @Binding var isShowingControls: Bool
+    @Binding var seekPosition: Double
     
     @State var isPlaying: Bool = false
-    @State var seekPosition: Double = 0
     
     var body: some View {
         ZStack {
@@ -67,10 +67,12 @@ struct VideoPlayerControlsView: View {
     
     private func expand() {
         self.isExpanded = true
+        self.pause()
     }
     
     private func minimize() {
         self.isExpanded = false
+        self.pause()
     }
     
     private func play() {
@@ -114,6 +116,6 @@ struct VideoPlayerControlsView: View {
 
 struct VideoPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isShowingControls: .constant(true))
+        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isShowingControls: .constant(true), seekPosition: .constant(0))
     }
 }
