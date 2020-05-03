@@ -14,10 +14,10 @@ struct Video {
     
     // MARK: Properties
     
-    static let foxVillage = Video(
-        title: "Fox Village",
-        url: URL(string: "https://wolverine.raywenderlich.com/content/ios/tutorials/video_streaming/foxVillage.m3u8"),
-        description: "Miyagi Zao Fox Village, also known as Kitsune Mura, is a tourist attraction and sanctuary for foxes in Shiroishi, Miyagi, Japan where visitors can feed and interact with foxes. The village's main exhibit is an open area where foxes roam around and visitors can enter to interact with and feed them, although attempting to pet or hand-feed the foxes is not advised as they may bite. There are over 100 foxes, including typical red and arctic foxes, foxes with uncommon coat colors, such as silver and platinum foxes, and red-arctic fox hybrids. The village also has rabbits, miniature horses, goats, and guinea pigs, in addition to gift and snack shops. In the spring, events are hosted in which visitors can hug fox kits. While the zoo has been dubbed the \"Cutest place on Earth,\" it has also received criticism due to the high density of foxes, which are normally solitary or live in small groups, foxes kept in cages, frequent fox fights, a perceived lack of greenery, and allegedly poor sanitation.\n\nSource: Wikipedia"
+    static let sintel = Video(
+        title: "Sintel",
+        url: URL(string: "https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8"),
+        description: "Sintel, code-named Project Durian during production, is a 2010 computer-animated fantasy short film. It was the third Blender \"open movie.\" It was produced by Ton Roosendaal, chairman of the Blender Foundation, written by Esther Wouda, and directed by Colin Levy, at the time an artist at Pixar. It was made at the Blender Institute, part of the Blender Foundation. The plot follows the character, Sintel, who is tracking down her pet Scales, a dragon. Just like the other Blender \"open movies,\" the film was made using Blender, a free and open source software application for animation, created and supported by the Blender Foundation."
     )
     
     let title: String

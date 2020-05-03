@@ -11,6 +11,8 @@ import SwiftUI
 struct VideoView: View {
     @ObservedObject var viewModel = VideoViewModel()
     
+    private let aspectRatio = CGSize(width: 1242.0 / 529.0, height: 1)
+    
     var body: some View {
         VStack(spacing: 0) {
             ZStack {
@@ -18,7 +20,7 @@ struct VideoView: View {
                     .frame(maxWidth: .infinity)
                 VideoPlayerView(url: self.viewModel.video.url!)
             }
-            .aspectRatio(CGSize(width: 16, height: 9), contentMode: .fit)
+            .aspectRatio(self.aspectRatio, contentMode: .fit)
             .frame(maxWidth: .infinity)
             
             ScrollView {
