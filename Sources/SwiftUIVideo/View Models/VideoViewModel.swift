@@ -19,6 +19,7 @@ class VideoViewModel: ObservableObject {
     @Published var video: Video
     @Published var player: AVPlayer
     @Published var seekPosition: Double = 0
+    @Published var controlTimer: Timer? = nil
     
     private var timeObserver: Any?
     

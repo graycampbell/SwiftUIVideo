@@ -16,6 +16,7 @@ struct VideoPlayerControlsView: View {
     @Binding var isExpanded: Bool
     @Binding var isShowingControls: Bool
     @Binding var seekPosition: Double
+    @Binding var controlTimer: Timer?
     
     @State var isPlaying: Bool = false
     
@@ -78,17 +79,23 @@ struct VideoPlayerControlsView: View {
     private func play() {
         self.player.play()
         self.isPlaying = true
+        self.startTimer()
     }
     
     private func pause() {
         self.player.pause()
         self.isPlaying = false
+        self.controlTimer?.invalidate()
     }
     
     private func jumpBack() {
         let seconds = max(0, self.player.currentTime().seconds - 15)
         
         self.seek(seconds: seconds)
+        
+        guard self.isPlaying else { return }
+        
+        self.startTimer()
     }
     
     private func skipAhead() {
@@ -97,6 +104,10 @@ struct VideoPlayerControlsView: View {
         let seconds = min(currentItem.duration.seconds, self.player.currentTime().seconds + 15)
         
         self.seek(seconds: seconds)
+        
+        guard self.isPlaying else { return }
+        
+        self.startTimer()
     }
     
     private func sliderDidChange(_ value: Bool) {
@@ -112,10 +123,19 @@ struct VideoPlayerControlsView: View {
         
         self.player.seek(to: newTime)
     }
+    
+    private func startTimer() {
+        self.controlTimer?.invalidate()
+        
+        self.controlTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
+            self.isShowingControls = false
+            timer.invalidate()
+        }
+    }
 }
 
 struct VideoPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isShowingControls: .constant(true), seekPosition: .constant(0))
+        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isShowingControls: .constant(true), seekPosition: .constant(0), controlTimer: .constant(nil))
     }
 }

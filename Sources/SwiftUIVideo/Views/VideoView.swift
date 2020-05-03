@@ -17,10 +17,10 @@ struct VideoView: View {
     var body: some View {
         VStack(spacing: 0) {
             if self.isVideoExpanded {
-                VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded, seekPosition: self.$viewModel.seekPosition)
+                VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded, seekPosition: self.$viewModel.seekPosition, controlTimer: self.$viewModel.controlTimer)
             }
             else {
-                VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded, seekPosition: self.$viewModel.seekPosition)
+                VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded, seekPosition: self.$viewModel.seekPosition, controlTimer: self.$viewModel.controlTimer)
                     .aspectRatio(1242.0 / 529.0, contentMode: .fit)
                 
                 VideoDetailsView(video: self.viewModel.video)
