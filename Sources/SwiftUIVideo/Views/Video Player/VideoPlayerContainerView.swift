@@ -24,6 +24,7 @@ struct VideoPlayerContainerView: View {
             
             VideoPlayerView(player: self.viewModel.player)
                 .aspectRatio(1242.0 / 529.0, contentMode: .fit)
+            
             VideoPlayerControlsView(viewModel: self.viewModel)
                 .opacity(self.viewModel.isShowingControls ? 1 : 0)
                 .animation(.easeInOut)
