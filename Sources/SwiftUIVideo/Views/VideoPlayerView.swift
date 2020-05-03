@@ -27,6 +27,8 @@ extension VideoPlayerView {
     }
     
     func updateUIView(_ uiView: VideoPlayerUIView, context: Context) {
-        self.viewModel.isPlaying ? uiView.play() : uiView.pause()
+        self.viewModel.playbackStatus.isPlaying
+            ? uiView.play()
+            : uiView.pause()
     }
 }

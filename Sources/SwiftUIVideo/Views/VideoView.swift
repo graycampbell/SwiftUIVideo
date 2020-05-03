@@ -19,8 +19,8 @@ struct VideoView: View {
                 VideoPlayerView(viewModel: self.viewModel)
                     .onTapGesture(perform: self.toggleControls)
                 
-                if self.viewModel.isShowingControls {
-                    VideoControls(viewModel: self.viewModel)
+                if self.viewModel.playbackStatus.isShowingControls {
+                    VideoOverlay(viewModel: self.viewModel)
                         .onTapGesture(perform: self.toggleControls)
                 }
             }
@@ -44,7 +44,7 @@ struct VideoView: View {
     }
     
     private func toggleControls() {
-        self.viewModel.isShowingControls.toggle()
+        self.viewModel.playbackStatus.isShowingControls.toggle()
     }
 }
 

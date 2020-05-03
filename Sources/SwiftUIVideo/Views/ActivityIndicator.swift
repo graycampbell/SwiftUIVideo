@@ -22,11 +22,7 @@ struct ActivityIndicator: UIViewRepresentable {
 
 extension ActivityIndicator {
     func makeUIView(context: Context) -> UIActivityIndicatorView {
-        let activityIndicatorView = UIActivityIndicatorView(style: .large)
-        
-        activityIndicatorView.startAnimating()
-        
-        return activityIndicatorView
+        return UIActivityIndicatorView(style: .large)
     }
     
     func updateUIView(_ uiView: UIActivityIndicatorView, context: Context) {

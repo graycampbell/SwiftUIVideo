@@ -9,12 +9,12 @@
 import SwiftUI
 
 struct VideoControlButton: View {
-    let systemImageName: String
+    let type: ButtonType
     let action: () -> Void
     
     var body: some View {
         Button(action: self.action) {
-            Image(systemName: self.systemImageName)
+            self.type.image
                 .imageScale(.large)
                 .frame(width: 50, height: 50)
         }
@@ -23,6 +23,6 @@ struct VideoControlButton: View {
 
 struct VideoControl_Previews: PreviewProvider {
     static var previews: some View {
-        VideoControlButton(systemImageName: "play.fill", action: {})
+        VideoControlButton(type: .play, action: {})
     }
 }

@@ -35,7 +35,7 @@ class VideoPlayerUIView: UIView {
     
     @ObservedObject var viewModel: VideoViewModel
     
-    private var cancellable: AnyCancellable?
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: Initializers
     
@@ -43,6 +43,14 @@ class VideoPlayerUIView: UIView {
         self.viewModel = viewModel
         
         super.init(frame: .zero)
+        
+        NotificationCenter.default
+            .publisher(for: .AVPlayerItemDidPlayToEndTime)
+            .sink { [weak self] _ in
+                self?.viewModel.playbackStatus.didFinishPlayback = true
+                self?.viewModel.playbackStatus.isShowingControls = true
+            }
+            .store(in: &self.cancellables)
         
         self.loadAsset(url: self.viewModel.video.url!) { [weak self] asset in
             self?.configurePlayerItem(with: asset)
@@ -54,7 +62,7 @@ class VideoPlayerUIView: UIView {
     }
     
     deinit {
-        self.playerItem?.removeObserver(self, forKeyPath: #keyPath(AVPlayerItem.status))
+        self.cancellables.forEach { $0.cancel() }
     }
 }
 
@@ -62,10 +70,19 @@ class VideoPlayerUIView: UIView {
 
 extension VideoPlayerUIView {
     func play() {
+        guard self.player?.timeControlStatus == .paused else { return }
+        
+        if self.viewModel.playbackStatus.didFinishPlayback {
+            self.player?.seek(to: .zero)
+            self.viewModel.playbackStatus.didFinishPlayback = false
+        }
+        
         self.player?.play()
     }
     
     func pause() {
+        guard self.player?.timeControlStatus == .playing else { return }
+        
         self.player?.pause()
     }
 }
@@ -100,24 +117,26 @@ extension VideoPlayerUIView {
 extension VideoPlayerUIView {
     private func configurePlayerItem(with asset: AVAsset) {
         self.playerItem = AVPlayerItem(asset: asset)
-        self.cancellable = self.playerItem?
+        self.playerItem?
             .publisher(for: \.status, options: [.initial, .new])
             .sink { [weak self] status in
                 switch status {
                     case .readyToPlay:
-                        print(".readyToPlay")
+                        guard !(self?.viewModel.playbackStatus.didFinishPlayback ?? false) else { return }
+                        
                         self?.play()
-                        self?.viewModel.isLoading = false
-                        self?.viewModel.isPlaying = true
-                        self?.viewModel.isShowingControls = false
+                        self?.viewModel.playbackStatus.isLoading = false
+                        self?.viewModel.playbackStatus.isPlaying = true
+                        self?.viewModel.playbackStatus.isShowingControls = false
                     case .failed:
                         print(".failed")
                     case .unknown:
                         print(".unknown")
-                    @unknown default:
-                        print("@unknown default")
+                    default:
+                        print(".default")
                 }
             }
+            .store(in: &self.cancellables)
         
         DispatchQueue.main.async { [weak self] in
             self?.player = AVPlayer(playerItem: self?.playerItem!)

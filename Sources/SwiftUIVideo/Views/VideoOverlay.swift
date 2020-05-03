@@ -1,5 +1,5 @@
 //
-//  VideoControlsOverlay.swift
+//  VideoOverlay.swift
 //  SwiftUIVideo
 //
 //  Created by Gray Campbell on 5/2/20.
@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct VideoControlsOverlay: View {
+struct VideoOverlay: View {
     @ObservedObject var viewModel: VideoViewModel
     
     var body: some View {
@@ -18,13 +18,13 @@ struct VideoControlsOverlay: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             
             HStack(spacing: 50) {
-                if self.viewModel.isLoading {
-                    ActivityIndicator(isAnimating: self.$viewModel.isLoading)
+                if self.viewModel.playbackStatus.isLoading {
+                    ActivityIndicator(isAnimating: self.$viewModel.playbackStatus.isLoading)
                 }
-                else if self.viewModel.didFinishPlaying {
-                    VideoControlButton(type: .replay, action: self.replay)
+                else if self.viewModel.playbackStatus.didFinishPlayback {
+                    VideoControlButton(type: .replay, action: self.play)
                 }
-                else if self.viewModel.isPlaying {
+                else if self.viewModel.playbackStatus.isPlaying {
                     VideoControlButton(type: .pause, action: self.pause)
                 }
                 else {
@@ -37,16 +37,12 @@ struct VideoControlsOverlay: View {
     }
     
     private func play() {
-        self.viewModel.isPlaying = true
-        self.viewModel.isShowingControls = false
+        self.viewModel.playbackStatus.isPlaying = true
+        self.viewModel.playbackStatus.isShowingControls = false
     }
     
     private func pause() {
-        self.viewModel.isPlaying = false
-    }
-    
-    private func replay() {
-        self.viewModel.shouldReplay = true
+        self.viewModel.playbackStatus.isPlaying = false
     }
 }
 

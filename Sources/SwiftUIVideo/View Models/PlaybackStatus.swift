@@ -1,5 +1,5 @@
 //
-//  VideoViewModel.swift
+//  PlaybackStatus.swift
 //  SwiftUIVideo
 //
 //  Created by Gray Campbell on 5/2/20.
@@ -11,10 +11,12 @@ import Foundation
 
 // MARK: Properties & Initializers
 
-class VideoViewModel: ObservableObject {
+struct PlaybackStatus {
     
     // MARK: Properties
     
-    @Published var video: Video = .foxVillage
-    @Published var playbackStatus = PlaybackStatus()
+    var isLoading: Bool = true
+    var isPlaying: Bool = false
+    var isShowingControls: Bool = true
+    var didFinishPlayback: Bool = false
 }
