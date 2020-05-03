@@ -16,13 +16,7 @@ struct VideoView: View {
             ZStack {
                 Color.black
                     .frame(maxWidth: .infinity)
-                VideoPlayerView(viewModel: self.viewModel)
-                    .onTapGesture(perform: self.toggleControls)
-                
-                if self.viewModel.playbackStatus.isShowingControls {
-                    VideoOverlay(viewModel: self.viewModel)
-                        .onTapGesture(perform: self.toggleControls)
-                }
+                VideoPlayerView(url: self.viewModel.video.url!)
             }
             .aspectRatio(CGSize(width: 16, height: 9), contentMode: .fit)
             .frame(maxWidth: .infinity)
@@ -41,10 +35,6 @@ struct VideoView: View {
                 .padding(20)
             }
         }
-    }
-    
-    private func toggleControls() {
-        self.viewModel.playbackStatus.isShowingControls.toggle()
     }
 }
 

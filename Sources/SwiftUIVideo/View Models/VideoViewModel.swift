@@ -16,5 +16,4 @@ class VideoViewModel: ObservableObject {
     // MARK: Properties
     
     @Published var video: Video = .foxVillage
-    @Published var playbackStatus = PlaybackStatus()
 }

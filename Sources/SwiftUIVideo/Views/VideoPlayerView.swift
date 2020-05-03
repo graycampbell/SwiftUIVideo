@@ -6,29 +6,31 @@
 //  Copyright © 2020 Gray Campbell. All rights reserved.
 //
 
+import AVKit
 import SwiftUI
-import AVFoundation
 
 // MARK: Properties & Initializers
 
-struct VideoPlayerView: UIViewRepresentable {
-    typealias UIViewType = VideoPlayerUIView
+struct VideoPlayerView: UIViewControllerRepresentable {
+    typealias UIViewControllerType = AVPlayerViewController
     
     // MARK: Properties
     
-    @ObservedObject var viewModel: VideoViewModel
+    var url: URL
 }
 
 // MARK: - UIViewRepresentable
 
 extension VideoPlayerView {
-    func makeUIView(context: Context) -> VideoPlayerUIView {
-        return VideoPlayerUIView(viewModel: self.viewModel)
+    func makeUIViewController(context: Context) -> AVPlayerViewController {
+        let playerViewController = AVPlayerViewController()
+        
+        playerViewController.player = AVPlayer(url: self.url)
+        
+        return playerViewController
     }
     
-    func updateUIView(_ uiView: VideoPlayerUIView, context: Context) {
-        self.viewModel.playbackStatus.isPlaying
-            ? uiView.play()
-            : uiView.pause()
+    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+        
     }
 }
