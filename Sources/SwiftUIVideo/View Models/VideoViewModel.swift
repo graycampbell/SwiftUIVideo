@@ -18,6 +18,7 @@ class VideoViewModel: ObservableObject {
     
     @Published var video: Video
     @Published var player: AVPlayer
+    @Published var isScrubbing: Bool = false
     @Published var seekPosition: Double = 0
     @Published var controlTimer: Timer? = nil
     
@@ -27,12 +28,12 @@ class VideoViewModel: ObservableObject {
         self.video = video
         self.player = AVPlayer(url: video.url!)
         
-        let interval = CMTime(seconds: 0.5, preferredTimescale: 600)
+        let interval = CMTime(seconds: 1, preferredTimescale: 600)
         
         self.timeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
-            guard let currentItem = self.player.currentItem else { return }
+            guard !self.isScrubbing, let item = self.player.currentItem else { return }
             
-            self.seekPosition = time.seconds / currentItem.duration.seconds
+            self.seekPosition = time.seconds / item.duration.seconds
         }
     }
     

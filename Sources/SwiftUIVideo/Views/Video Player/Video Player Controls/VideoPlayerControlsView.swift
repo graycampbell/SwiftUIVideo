@@ -14,6 +14,7 @@ struct VideoPlayerControlsView: View {
     let player: AVPlayer
     
     @Binding var isExpanded: Bool
+    @Binding var isScrubbing: Bool
     @Binding var isShowingControls: Bool
     @Binding var seekPosition: Double
     @Binding var controlTimer: Timer?
@@ -99,9 +100,9 @@ struct VideoPlayerControlsView: View {
     }
     
     private func skipAhead() {
-        guard let currentItem = self.player.currentItem else { return }
+        guard let item = self.player.currentItem else { return }
         
-        let seconds = min(currentItem.duration.seconds, self.player.currentTime().seconds + 15)
+        let seconds = min(item.duration.seconds, self.player.currentTime().seconds + 15)
         
         self.seek(seconds: seconds)
         
@@ -110,24 +111,35 @@ struct VideoPlayerControlsView: View {
         self.startTimer()
     }
     
-    private func sliderDidChange(_ value: Bool) {
-        guard let currentItem = self.player.currentItem else { return }
+    private func sliderDidChange(_ isScrubbing: Bool) {
+        guard let item = self.player.currentItem else { return }
         
-        let seconds = self.seekPosition * currentItem.duration.seconds
+        let seconds = self.seekPosition * item.duration.seconds
         
-        self.seek(seconds: seconds)
+        self.seek(seconds: seconds) { finished in
+            guard finished else { return }
+            
+            self.isScrubbing = isScrubbing
+            
+            if self.isScrubbing {
+                self.controlTimer?.invalidate()
+            }
+            else if self.isPlaying {
+                self.startTimer()
+            }
+        }
     }
     
-    private func seek(seconds: Double) {
+    private func seek(seconds: Double, completionHandler: @escaping (Bool) -> Void = { _ in }) {
         let newTime = CMTime(seconds: seconds, preferredTimescale: 600)
         
-        self.player.seek(to: newTime)
+        self.player.seek(to: newTime, completionHandler: completionHandler)
     }
     
     private func startTimer() {
         self.controlTimer?.invalidate()
         
-        self.controlTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { timer in
+        self.controlTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { timer in
             self.isShowingControls = false
             timer.invalidate()
         }
@@ -136,6 +148,6 @@ struct VideoPlayerControlsView: View {
 
 struct VideoPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isShowingControls: .constant(true), seekPosition: .constant(0), controlTimer: .constant(nil))
+        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isScrubbing: .constant(false), isShowingControls: .constant(true), seekPosition: .constant(0), controlTimer: .constant(nil))
     }
 }
