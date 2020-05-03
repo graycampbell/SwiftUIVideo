@@ -6,6 +6,7 @@
 //  Copyright © 2020 Gray Campbell. All rights reserved.
 //
 
+import AVKit
 import Foundation
 
 // MARK: Properties & Initializers
@@ -23,4 +24,8 @@ struct Video {
     let title: String
     let url: URL?
     let description: String
+    
+    var player: AVPlayer {
+        return AVPlayer(url: self.url!)
+    }
 }

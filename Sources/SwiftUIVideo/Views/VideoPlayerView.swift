@@ -11,26 +11,22 @@ import SwiftUI
 
 // MARK: Properties & Initializers
 
-struct VideoPlayerView: UIViewControllerRepresentable {
-    typealias UIViewControllerType = AVPlayerViewController
+struct VideoPlayerView: UIViewRepresentable {
+    typealias UIViewType = VideoPlayerUIView
     
     // MARK: Properties
     
-    var url: URL
+    let player: AVPlayer
 }
 
 // MARK: - UIViewRepresentable
 
 extension VideoPlayerView {
-    func makeUIViewController(context: Context) -> AVPlayerViewController {
-        let playerViewController = AVPlayerViewController()
-        
-        playerViewController.player = AVPlayer(url: self.url)
-        
-        return playerViewController
+    func makeUIView(context: Context) -> VideoPlayerUIView {
+        return VideoPlayerUIView(player: self.player)
     }
     
-    func updateUIViewController(_ uiViewController: AVPlayerViewController, context: Context) {
+    func updateUIView(_ uiView: VideoPlayerUIView, context: Context) {
         
     }
 }
