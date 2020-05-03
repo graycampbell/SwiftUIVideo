@@ -6,6 +6,7 @@
 //  Copyright © 2020 Gray Campbell. All rights reserved.
 //
 
+import AVKit
 import Combine
 import Foundation
 
@@ -15,5 +16,11 @@ class VideoViewModel: ObservableObject {
     
     // MARK: Properties
     
-    @Published var video: Video = .sintel
+    @Published var video: Video
+    @Published var player: AVPlayer
+    
+    init(video: Video) {
+        self.video = video
+        self.player = AVPlayer(url: video.url!)
+    }
 }

@@ -114,6 +114,6 @@ struct VideoPlayerControlsView: View {
 
 struct VideoPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerControlsView(player: Video.sintel.player, isExpanded: .constant(false), isShowingControls: .constant(true))
+        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isShowingControls: .constant(true))
     }
 }

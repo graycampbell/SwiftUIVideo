@@ -10,14 +10,13 @@ import AVKit
 import SwiftUI
 
 struct VideoView: View {
-    @ObservedObject var viewModel = VideoViewModel()
+    @ObservedObject var viewModel = VideoViewModel(video: .sintel)
     
     @State var isVideoExpanded: Bool = false
     
     @ViewBuilder var body: some View {
         VStack(spacing: 0) {
-            VideoPlayerContainerView(player: self.viewModel.video.player, isExpanded: self.$isVideoExpanded)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+            VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded)
             
             if !self.isVideoExpanded {
                 VideoDetailsView(video: self.viewModel.video)

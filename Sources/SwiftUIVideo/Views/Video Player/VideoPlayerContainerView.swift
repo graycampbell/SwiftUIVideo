@@ -44,6 +44,6 @@ struct VideoPlayerContainerView: View {
 
 struct VideoPlayerContainerView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerContainerView(player: Video.sintel.player, isExpanded: .constant(false))
+        VideoPlayerContainerView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false))
     }
 }
