@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E247086A245F7ADE001B4E33 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2470869245F7ADE001B4E33 /* ActivityIndicatorView.swift */; };
 		E2AE3C65245EB08A000B9621 /* VideoDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AE3C5A245EB08A000B9621 /* VideoDetailsView.swift */; };
 		E2AE3C66245EB08A000B9621 /* VideoPlayerControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AE3C5D245EB08A000B9621 /* VideoPlayerControlsView.swift */; };
 		E2AE3C67245EB08A000B9621 /* VideoPlayerControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AE3C5E245EB08A000B9621 /* VideoPlayerControl.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E2470869245F7ADE001B4E33 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		E28A9E34245E14D4001F8279 /* SwiftUIVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2AE3C5A245EB08A000B9621 /* VideoDetailsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoDetailsView.swift; sourceTree = "<group>"; };
 		E2AE3C5D245EB08A000B9621 /* VideoPlayerControlsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoPlayerControlsView.swift; sourceTree = "<group>"; };
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				E2AE3C64245EB08A000B9621 /* VideoView.swift */,
+				E2470869245F7ADE001B4E33 /* ActivityIndicatorView.swift */,
 				E2AE3C5B245EB08A000B9621 /* Video Player */,
 				E2AE3C5A245EB08A000B9621 /* VideoDetailsView.swift */,
 			);
@@ -242,6 +245,7 @@
 				E2B8BC92245E1E190005F292 /* VideoViewModel.swift in Sources */,
 				E2B8BC60245E14F40005F292 /* SceneDelegate.swift in Sources */,
 				E2AE3C6C245EB08A000B9621 /* VideoView.swift in Sources */,
+				E247086A245F7ADE001B4E33 /* ActivityIndicatorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,7 +383,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"$(SRCROOT)/Sources/SwiftUIVideo/Preview Content\"";
-				DEVELOPMENT_TEAM = 7GDS9622D9;
+				DEVELOPMENT_TEAM = 5338B2C3F5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/SwiftUIVideo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -399,7 +403,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"$(SRCROOT)/Sources/SwiftUIVideo/Preview Content\"";
-				DEVELOPMENT_TEAM = 7GDS9622D9;
+				DEVELOPMENT_TEAM = 5338B2C3F5;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/SwiftUIVideo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (

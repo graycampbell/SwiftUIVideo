@@ -11,15 +11,7 @@ import SwiftUI
 import Combine
 
 struct VideoPlayerControlsView: View {
-    let player: AVPlayer
-    
-    @Binding var isExpanded: Bool
-    @Binding var isScrubbing: Bool
-    @Binding var isShowingControls: Bool
-    @Binding var seekPosition: Double
-    @Binding var controlTimer: Timer?
-    
-    @State var isPlaying: Bool = false
+    @ObservedObject var viewModel: VideoViewModel
     
     var body: some View {
         ZStack {
@@ -28,7 +20,7 @@ struct VideoPlayerControlsView: View {
             
             VStack {
                 HStack {
-                    if self.isExpanded {
+                    if self.viewModel.isExpanded {
                         VideoPlayerControl(type: .minimize, action: self.minimize)
                     }
                     else {
@@ -43,111 +35,92 @@ struct VideoPlayerControlsView: View {
             }
             
             HStack(spacing: 50) {
-                VideoPlayerControl(type: .jumpBack, action: self.jumpBack)
-                
-                if self.isPlaying {
-                    VideoPlayerControl(type: .pause, action: self.pause)
+                if self.viewModel.status == .waitingToPlayAtSpecifiedRate {
+                    ActivityIndicatorView(style: .large, color: .white)
+                        .padding()
+                        .background(Color.secondary)
+                        .cornerRadius(15)
                 }
                 else {
-                    VideoPlayerControl(type: .play, action: self.play)
+                    VideoPlayerControl(type: .jumpBack, action: self.jumpBack)
+                    
+                    if self.viewModel.status == .playing {
+                        VideoPlayerControl(type: .pause, action: self.pause)
+                    }
+                    else {
+                        VideoPlayerControl(type: .play, action: self.play)
+                    }
+                    
+                    VideoPlayerControl(type: .skipAhead, action: self.skipAhead)
                 }
-                
-                VideoPlayerControl(type: .skipAhead, action: self.skipAhead)
             }
             
             VStack {
                 Spacer()
                 
-                Slider(value: self.$seekPosition, in: (0...1), onEditingChanged: self.sliderDidChange(_:))
-                    .padding(.bottom, 20)
+                Slider(value: self.$viewModel.seekPosition, in: (0...1), onEditingChanged: self.sliderDidChange(_:))
+                    .padding(.bottom, 10)
                     .padding(.horizontal, 20)
             }
         }
         .accentColor(.white)
+        .foregroundColor(.white)
         .animation(.none)
     }
     
     private func expand() {
-        self.isExpanded = true
+        self.viewModel.isExpanded = true
         self.pause()
     }
     
     private func minimize() {
-        self.isExpanded = false
+        self.viewModel.isExpanded = false
         self.pause()
     }
     
     private func play() {
-        self.player.play()
-        self.isPlaying = true
-        self.startTimer()
+        self.viewModel.player.play()
     }
     
     private func pause() {
-        self.player.pause()
-        self.isPlaying = false
-        self.controlTimer?.invalidate()
+        self.viewModel.player.pause()
     }
     
     private func jumpBack() {
-        let seconds = max(0, self.player.currentTime().seconds - 15)
+        let seconds = max(0, self.viewModel.player.currentTime().seconds - 15)
         
         self.seek(seconds: seconds)
-        
-        guard self.isPlaying else { return }
-        
-        self.startTimer()
     }
     
     private func skipAhead() {
-        guard let item = self.player.currentItem else { return }
+        guard let item = self.viewModel.player.currentItem else { return }
         
-        let seconds = min(item.duration.seconds, self.player.currentTime().seconds + 15)
+        let seconds = min(item.duration.seconds, self.viewModel.player.currentTime().seconds + 15)
         
         self.seek(seconds: seconds)
-        
-        guard self.isPlaying else { return }
-        
-        self.startTimer()
     }
     
     private func sliderDidChange(_ isScrubbing: Bool) {
-        guard let item = self.player.currentItem else { return }
+        guard let item = self.viewModel.player.currentItem else { return }
         
-        let seconds = self.seekPosition * item.duration.seconds
+        let seconds = self.viewModel.seekPosition * item.duration.seconds
         
         self.seek(seconds: seconds) { finished in
             guard finished else { return }
             
-            self.isScrubbing = isScrubbing
-            
-            if self.isScrubbing {
-                self.controlTimer?.invalidate()
-            }
-            else if self.isPlaying {
-                self.startTimer()
-            }
+            self.viewModel.isScrubbing = isScrubbing
         }
     }
     
     private func seek(seconds: Double, completionHandler: @escaping (Bool) -> Void = { _ in }) {
         let newTime = CMTime(seconds: seconds, preferredTimescale: 600)
         
-        self.player.seek(to: newTime, completionHandler: completionHandler)
-    }
-    
-    private func startTimer() {
-        self.controlTimer?.invalidate()
-        
-        self.controlTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { timer in
-            self.isShowingControls = false
-            timer.invalidate()
-        }
+        self.viewModel.player.seek(to: newTime, completionHandler: completionHandler)
     }
 }
 
 struct VideoPlayerControlsView_Previews: PreviewProvider {
     static var previews: some View {
-        VideoPlayerControlsView(player: AVPlayer(url: Video.sintel.url!), isExpanded: .constant(false), isScrubbing: .constant(false), isShowingControls: .constant(true), seekPosition: .constant(0), controlTimer: .constant(nil))
+        VideoPlayerControlsView(viewModel: VideoViewModel(video: Video.sintel))
     }
 }

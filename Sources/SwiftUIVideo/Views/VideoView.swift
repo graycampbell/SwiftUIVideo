@@ -12,21 +12,19 @@ import SwiftUI
 struct VideoView: View {
     @ObservedObject var viewModel = VideoViewModel(video: .sintel)
     
-    @State var isVideoExpanded: Bool = false
-    
     var body: some View {
         VStack(spacing: 0) {
-            if self.isVideoExpanded {
-                VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded, isScrubbing: self.$viewModel.isScrubbing, seekPosition: self.$viewModel.seekPosition, controlTimer: self.$viewModel.controlTimer)
+            if self.viewModel.isExpanded {
+                VideoPlayerContainerView(viewModel: self.viewModel)
             }
             else {
-                VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded, isScrubbing: self.$viewModel.isScrubbing, seekPosition: self.$viewModel.seekPosition, controlTimer: self.$viewModel.controlTimer)
+                VideoPlayerContainerView(viewModel: self.viewModel)
                     .aspectRatio(1242.0 / 529.0, contentMode: .fit)
                 
                 VideoDetailsView(video: self.viewModel.video)
             }
         }
-        .statusBar(hidden: self.isVideoExpanded)
+        .statusBar(hidden: self.viewModel.isExpanded)
     }
 }
 

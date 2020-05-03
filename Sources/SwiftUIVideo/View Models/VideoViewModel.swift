@@ -18,11 +18,15 @@ class VideoViewModel: ObservableObject {
     
     @Published var video: Video
     @Published var player: AVPlayer
+    @Published var status: AVPlayer.TimeControlStatus = .paused
+    @Published var isExpanded: Bool = false
     @Published var isScrubbing: Bool = false
+    @Published var isShowingControls: Bool = true
     @Published var seekPosition: Double = 0
-    @Published var controlTimer: Timer? = nil
     
     private var timeObserver: Any?
+    private var controlTimer: Timer? = nil
+    private var cancellables = Set<AnyCancellable>()
     
     init(video: Video) {
         self.video = video
@@ -35,11 +39,35 @@ class VideoViewModel: ObservableObject {
             
             self.seekPosition = time.seconds / item.duration.seconds
         }
+        
+        self.player
+            .publisher(for: \.timeControlStatus)
+            .debounce(for: .milliseconds(80), scheduler: RunLoop.main)
+            .sink { [weak self] status in
+                self?.status = status
+                self?.startControlTimer()
+            }
+            .store(in: &self.cancellables)
     }
     
     deinit {
         guard let timeObserver = self.timeObserver else { return }
         
         self.player.removeTimeObserver(timeObserver)
+    }
+}
+
+// MARK: - Control Timer
+
+extension VideoViewModel {
+    func startControlTimer() {
+        self.controlTimer?.invalidate()
+        
+        guard self.status == .playing && !self.isScrubbing else { return }
+        
+        self.controlTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { timer in
+            self.isShowingControls = false
+            timer.invalidate()
+        }
     }
 }
