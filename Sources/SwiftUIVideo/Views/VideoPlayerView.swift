@@ -16,17 +16,17 @@ struct VideoPlayerView: UIViewRepresentable {
     
     // MARK: Properties
     
-    let video: Video
+    @ObservedObject var viewModel: VideoViewModel
 }
 
 // MARK: - UIViewRepresentable
 
 extension VideoPlayerView {
     func makeUIView(context: Context) -> VideoPlayerUIView {
-        return VideoPlayerUIView(video: self.video)
+        return VideoPlayerUIView(viewModel: self.viewModel)
     }
     
     func updateUIView(_ uiView: VideoPlayerUIView, context: Context) {
-        
+        self.viewModel.isPlaying ? uiView.play() : uiView.pause()
     }
 }

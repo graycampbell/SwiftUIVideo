@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E230794E245E3F20000B1DB3 /* VideoControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = E230794D245E3F20000B1DB3 /* VideoControls.swift */; };
+		E2307950245E4089000B1DB3 /* VideoControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = E230794F245E4089000B1DB3 /* VideoControl.swift */; };
+		E2307952245E4CFB000B1DB3 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2307951245E4CFB000B1DB3 /* ActivityIndicator.swift */; };
 		E2B8BC5A245E14F40005F292 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2B8BC51245E14F40005F292 /* Assets.xcassets */; };
 		E2B8BC5B245E14F40005F292 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E2B8BC53245E14F40005F292 /* Preview Assets.xcassets */; };
 		E2B8BC5C245E14F40005F292 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2B8BC54245E14F40005F292 /* LaunchScreen.storyboard */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E230794D245E3F20000B1DB3 /* VideoControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControls.swift; sourceTree = "<group>"; };
+		E230794F245E4089000B1DB3 /* VideoControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoControl.swift; sourceTree = "<group>"; };
+		E2307951245E4CFB000B1DB3 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		E28A9E34245E14D4001F8279 /* SwiftUIVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftUIVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2B8BC51245E14F40005F292 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E2B8BC53245E14F40005F292 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -92,7 +98,10 @@
 		E2B8BC63245E16A60005F292 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E2307951245E4CFB000B1DB3 /* ActivityIndicator.swift */,
 				E2B8BC6A245E1A410005F292 /* VideoView.swift */,
+				E230794D245E3F20000B1DB3 /* VideoControls.swift */,
+				E230794F245E4089000B1DB3 /* VideoControl.swift */,
 				E2B8BC93245E1E8C0005F292 /* VideoPlayerView.swift */,
 				E2B8BC95245E1F9F0005F292 /* VideoPlayerUIView.swift */,
 			);
@@ -195,9 +204,12 @@
 				E2B8BC67245E188F0005F292 /* Video.swift in Sources */,
 				E2B8BC5D245E14F40005F292 /* AppDelegate.swift in Sources */,
 				E2B8BC92245E1E190005F292 /* VideoViewModel.swift in Sources */,
+				E2307952245E4CFB000B1DB3 /* ActivityIndicator.swift in Sources */,
 				E2B8BC60245E14F40005F292 /* SceneDelegate.swift in Sources */,
 				E2B8BC94245E1E8C0005F292 /* VideoPlayerView.swift in Sources */,
 				E2B8BC96245E1F9F0005F292 /* VideoPlayerUIView.swift in Sources */,
+				E230794E245E3F20000B1DB3 /* VideoControls.swift in Sources */,
+				E2307950245E4089000B1DB3 /* VideoControl.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

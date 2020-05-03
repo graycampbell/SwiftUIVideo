@@ -16,4 +16,7 @@ class VideoViewModel: ObservableObject {
     // MARK: Properties
     
     @Published var video: Video = .foxVillage
+    @Published var isLoading: Bool = true
+    @Published var isPlaying: Bool = false
+    @Published var isShowingControls: Bool = true
 }

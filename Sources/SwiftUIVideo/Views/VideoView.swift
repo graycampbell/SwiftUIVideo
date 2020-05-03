@@ -12,9 +12,39 @@ struct VideoView: View {
     @ObservedObject var viewModel = VideoViewModel()
     
     var body: some View {
-        VideoPlayerView(video: self.viewModel.video)
-            .padding(20)
-            .navigationBarTitle(self.viewModel.video.title)
+        VStack(spacing: 0) {
+            ZStack {
+                Color.black
+                    .frame(maxWidth: .infinity)
+                VideoPlayerView(viewModel: self.viewModel)
+                    .onTapGesture(perform: self.toggleControls)
+                
+                if self.viewModel.isShowingControls {
+                    VideoControls(viewModel: self.viewModel)
+                        .onTapGesture(perform: self.toggleControls)
+                }
+            }
+            .aspectRatio(CGSize(width: 16, height: 9), contentMode: .fit)
+            .frame(maxWidth: .infinity)
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(self.viewModel.video.title)
+                        .font(.title)
+                    
+                    Text(self.viewModel.video.description)
+                        .font(.body)
+                        .foregroundColor(.secondary)
+                    
+                    Spacer()
+                }
+                .padding(20)
+            }
+        }
+    }
+    
+    private func toggleControls() {
+        self.viewModel.isShowingControls.toggle()
     }
 }
 
