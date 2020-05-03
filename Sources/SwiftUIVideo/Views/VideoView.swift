@@ -14,7 +14,7 @@ struct VideoView: View {
     
     @State var isVideoExpanded: Bool = false
     
-    @ViewBuilder var body: some View {
+    var body: some View {
         VStack(spacing: 0) {
             VideoPlayerContainerView(player: self.viewModel.player, isExpanded: self.$isVideoExpanded)
             
