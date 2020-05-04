@@ -42,7 +42,7 @@ struct VideoPlayerControlsView: View {
             }
             
             HStack(spacing: 50) {
-                if self.viewModel.status == .waitingToPlayAtSpecifiedRate {
+                if self.viewModel.timeControlStatus == .waitingToPlayAtSpecifiedRate {
                     ActivityIndicatorView(style: .large, color: .white)
                         .padding()
                         .background(Color.secondary)
@@ -51,7 +51,7 @@ struct VideoPlayerControlsView: View {
                 else {
                     VideoPlayerControl(type: .jumpBack, action: self.jumpBack)
                     
-                    if self.viewModel.status == .playing {
+                    if self.viewModel.timeControlStatus == .playing {
                         VideoPlayerControl(type: .pause, action: self.pause)
                     }
                     else {
@@ -128,7 +128,7 @@ struct VideoPlayerControlsView: View {
     }
     
     private func seek(seconds: Double, completionHandler: @escaping (Bool) -> Void = { _ in }) {
-        let newTime = CMTime(seconds: seconds, preferredTimescale: 600)
+        let newTime = CMTime(seconds: seconds, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         
         self.viewModel.player.seek(to: newTime, completionHandler: completionHandler)
     }

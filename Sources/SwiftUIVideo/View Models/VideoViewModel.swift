@@ -18,7 +18,7 @@ class VideoViewModel: ObservableObject {
     
     @Published var video: Video
     @Published var player: AVPlayer
-    @Published var status: AVPlayer.TimeControlStatus = .waitingToPlayAtSpecifiedRate
+    @Published var timeControlStatus: AVPlayer.TimeControlStatus = .waitingToPlayAtSpecifiedRate
     @Published var isExpanded: Bool = false
     @Published var isScrubbing: Bool = false
     @Published var isShowingControls: Bool = true
@@ -30,10 +30,15 @@ class VideoViewModel: ObservableObject {
     
     init(video: Video) {
         self.video = video
-        self.player = AVPlayer(url: video.url!)
+        
+        let asset = AVAsset(url: video.url!)
+        let playerItem = AVPlayerItem(asset: asset)
+        
+        self.player = AVPlayer(playerItem: playerItem)
         
         self.addTimeObserver()
         self.subscribeToStatusPublisher()
+        self.subscribeToTimeControlStatusPublisher()
         self.subscribeToIsMutedPublisher()
     }
     
@@ -41,6 +46,8 @@ class VideoViewModel: ObservableObject {
         guard let timeObserver = self.timeObserver else { return }
         
         self.player.removeTimeObserver(timeObserver)
+        self.timeObserver = nil
+        
         self.cancellables.forEach { $0.cancel() }
     }
 }
@@ -49,7 +56,7 @@ class VideoViewModel: ObservableObject {
 
 extension VideoViewModel {
     private func addTimeObserver() {
-        let interval = CMTime(seconds: 1, preferredTimescale: 600)
+        let interval = CMTime(seconds: 1, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         
         self.timeObserver = self.player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
             guard !self.isScrubbing, let item = self.player.currentItem else { return }
@@ -60,11 +67,31 @@ extension VideoViewModel {
     
     private func subscribeToStatusPublisher() {
         self.player
+            .publisher(for: \.status)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] status in
+                switch status {
+                    case .readyToPlay:
+                        self?.player.preroll(atRate: 1)
+                        print("player.status == .readyToPlay")
+                    case .failed:
+                        print(self?.player.error ?? "player.status == .failed")
+                    case .unknown:
+                        print("player.status == .unknown")
+                    default:
+                        print("player.status == default")
+                }
+            }
+            .store(in: &self.cancellables)
+    }
+    
+    private func subscribeToTimeControlStatusPublisher() {
+        self.player
             .publisher(for: \.timeControlStatus)
             .debounce(for: .milliseconds(80), scheduler: RunLoop.main)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] status in
-                self?.status = status
+            .sink { [weak self] timeControlStatus in
+                self?.timeControlStatus = timeControlStatus
                 self?.startControlTimer()
             }
             .store(in: &self.cancellables)
@@ -88,7 +115,7 @@ extension VideoViewModel {
     func startControlTimer() {
         self.controlTimer?.invalidate()
         
-        guard self.status == .playing && !self.isScrubbing else { return }
+        guard self.timeControlStatus == .playing && !self.isScrubbing else { return }
         
         self.controlTimer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: false) { timer in
             self.isShowingControls = false
