@@ -6,37 +6,25 @@
 //  Copyright © 2020 Gray Campbell. All rights reserved.
 //
 
+import AVKit
 import SwiftUI
 
 struct VideoView: View {
-    @ObservedObject var viewModel = VideoViewModel()
-    
-    private let aspectRatio = CGSize(width: 1242.0 / 529.0, height: 1)
+    @ObservedObject var viewModel = VideoViewModel(video: .sintel)
     
     var body: some View {
         VStack(spacing: 0) {
-            ZStack {
-                Color.black
-                    .frame(maxWidth: .infinity)
-                VideoPlayerView(url: self.viewModel.video.url!)
+            if self.viewModel.isExpanded {
+                VideoPlayerContainerView(viewModel: self.viewModel)
             }
-            .aspectRatio(self.aspectRatio, contentMode: .fit)
-            .frame(maxWidth: .infinity)
-            
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Text(self.viewModel.video.title)
-                        .font(.title)
-                    
-                    Text(self.viewModel.video.description)
-                        .font(.body)
-                        .foregroundColor(.secondary)
-                    
-                    Spacer()
-                }
-                .padding(20)
+            else {
+                VideoPlayerContainerView(viewModel: self.viewModel)
+                    .aspectRatio(1242.0 / 529.0, contentMode: .fit)
+                
+                VideoDetailsView(video: self.viewModel.video)
             }
         }
+        .statusBar(hidden: self.viewModel.isExpanded)
     }
 }
 

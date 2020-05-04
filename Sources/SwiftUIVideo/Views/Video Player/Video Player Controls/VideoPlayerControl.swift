@@ -1,28 +1,28 @@
 //
-//  VideoControlButton.swift
+//  VideoPlayerControl.swift
 //  SwiftUIVideo
 //
-//  Created by Gray Campbell on 5/2/20.
+//  Created by Gray Campbell on 5/3/20.
 //  Copyright © 2020 Gray Campbell. All rights reserved.
 //
 
 import SwiftUI
 
-struct VideoControlButton: View {
-    let systemImageName: String
+struct VideoPlayerControl: View {
+    let type: ControlType
     let action: () -> Void
     
     var body: some View {
         Button(action: self.action) {
-            Image(systemName: self.systemImageName)
+            self.type.image
                 .imageScale(.large)
                 .frame(width: 50, height: 50)
         }
     }
 }
 
-struct VideoControl_Previews: PreviewProvider {
+struct VideoPlayerControl_Previews: PreviewProvider {
     static var previews: some View {
-        VideoControlButton(systemImageName: "play.fill", action: {})
+        VideoPlayerControl(type: .play, action: {})
     }
 }
