@@ -383,7 +383,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"$(SRCROOT)/Sources/SwiftUIVideo/Preview Content\"";
-				DEVELOPMENT_TEAM = 5338B2C3F5;
+				DEVELOPMENT_TEAM = 7GDS9622D9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/SwiftUIVideo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -393,7 +393,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.graycampbell.SwiftUIVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -403,7 +403,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"$(SRCROOT)/Sources/SwiftUIVideo/Preview Content\"";
-				DEVELOPMENT_TEAM = 5338B2C3F5;
+				DEVELOPMENT_TEAM = 7GDS9622D9;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "$(SRCROOT)/Sources/SwiftUIVideo/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -413,7 +413,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.graycampbell.SwiftUIVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
