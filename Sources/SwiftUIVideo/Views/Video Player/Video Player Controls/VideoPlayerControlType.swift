@@ -10,7 +10,7 @@ import SwiftUI
 
 extension VideoPlayerControl {
     enum ControlType {
-        case play, pause, jumpBack, skipAhead, expand, minimize
+        case play, pause, jumpBack, skipAhead, expand, minimize, mute, unmute
         
         var image: Image {
             switch self {
@@ -26,6 +26,10 @@ extension VideoPlayerControl {
                     return Image(systemName: "arrow.up.left.and.arrow.down.right")
                 case .minimize:
                     return Image(systemName: "arrow.down.right.and.arrow.up.left")
+                case .unmute:
+                    return Image(systemName: "speaker.slash.fill")
+                case .mute:
+                    return Image(systemName: "speaker.2.fill")
             }
         }
     }

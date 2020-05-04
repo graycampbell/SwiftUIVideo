@@ -34,12 +34,14 @@ class VideoViewModel: ObservableObject {
         
         self.addTimeObserver()
         self.subscribeToStatusPublisher()
+        self.subscribeToIsMutedPublisher()
     }
     
     deinit {
         guard let timeObserver = self.timeObserver else { return }
         
         self.player.removeTimeObserver(timeObserver)
+        self.cancellables.forEach { $0.cancel() }
     }
 }
 
@@ -63,6 +65,17 @@ extension VideoViewModel {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] status in
                 self?.status = status
+                self?.startControlTimer()
+            }
+            .store(in: &self.cancellables)
+    }
+    
+    private func subscribeToIsMutedPublisher() {
+        self.player
+            .publisher(for: \.isMuted)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] isMuted in
+                self?.objectWillChange.send()
                 self?.startControlTimer()
             }
             .store(in: &self.cancellables)

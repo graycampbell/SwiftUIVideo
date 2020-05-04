@@ -28,8 +28,15 @@ struct VideoPlayerControlsView: View {
                     }
                     
                     Spacer()
+                    
+                    if self.viewModel.player.isMuted {
+                        VideoPlayerControl(type: .unmute, action: self.unmute)
+                    }
+                    else {
+                        VideoPlayerControl(type: .mute, action: self.mute)
+                    }
                 }
-                .padding([.top, .leading], 5)
+                .padding([.top, .horizontal], 5)
                 
                 Spacer()
             }
@@ -76,6 +83,14 @@ struct VideoPlayerControlsView: View {
     private func minimize() {
         self.viewModel.isExpanded = false
         self.pause()
+    }
+    
+    private func mute() {
+        self.viewModel.player.isMuted = true
+    }
+    
+    private func unmute() {
+        self.viewModel.player.isMuted = false
     }
     
     private func play() {
